@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pythonic EduTech | SQL Joins</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        h1, h2, h3 {
+            color: #0056b3;
+        }
+        
+        section {
+            background: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        pre {
+            background: #272822;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+        }
+        
+        img {
+            max-width: 25%;
+            height: auto;
+            display: block;
+            margin: 10px 0;
+        }
+        
+        p {
+            line-height: 1.6;
+        }
+        
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+        
+            section {
+                padding: 15px;
+            }
+        }
+        
+    </style>
+  </head>
+
+  <body>
+    <h1>SQL Table Creation and Joins</h1>
+    <section>
+      <h2>Students Table</h2>
+      <pre><code>
+CREATE TABLE Students (
+    StudentID INT PRIMARY KEY,
+    StudentName VARCHAR(50)
+);
+        </code></pre>
+    </section>
+    <section>
+      <h2>Courses Table</h2>
+      <pre><code>
+CREATE TABLE Courses (
+    CourseID INT PRIMARY KEY,
+    StudentID INT,
+    CourseName VARCHAR(50),
+    FOREIGN KEY (StudentID) REFERENCES Students(StudentID)
+);
+        </code></pre>
+    </section>
+    <section>
+      <h2>Data Insertion</h2>
+      <h3>Students Table</h3>
+      <pre><code>
+INSERT INTO Students (StudentID, StudentName) VALUES
+(1, 'John'),
+(2, 'Jane'),
+(3, 'Bob'),
+(4, 'Alice'),
+(5, 'Eve'),
+(6, 'Frank'),
+(7, 'Grace'),
+(8, 'Henry'),
+(9, 'Jack');
+        </code></pre>
+      <h3>Courses Table</h3>
+      <pre><code>
+-- Corrected data to avoid foreign key constraint error
+INSERT INTO Courses (CourseID, StudentID, CourseName) VALUES
+(101, 1, 'Math'),
+(102, 2, 'Science'),
+(103, 3, 'History'),
+(105, 4, 'Physics'),
+(106, 6, 'Chemistry'),
+(107, 7, 'Biology'),
+(108, 8, 'Literature');
+        </code></pre>
+      <img src="tables.png" style="max-width: 50%;" alt="tables" />
+    </section>
+    <section>
+      <h2>SQL Joins</h2>
+      <h3>1. INNER JOIN</h3>
+      <p>Returns records that have matching values in both tables</p>
+      <img src="innerjoin.png" alt="innerjoin" />
+      <pre><code>
+SELECT Students.StudentID, Students.StudentName, Courses.CourseName
+FROM Students
+INNER JOIN Courses ON Students.StudentID = Courses.StudentID;
+        </code></pre>
+        <img src="innertable.png" alt="table">
+      <h3>2. LEFT (OUTER) JOIN</h3>
+
+      <p>
+        Returns all records from the left table, and the matched records from
+        the right table
+      </p>
+      <img src="leftjoin.png" alt="leftjoin">
+      <pre><code>
+SELECT Students.StudentID, Students.StudentName, Courses.CourseName
+FROM Students
+LEFT JOIN Courses ON Students.StudentID = Courses.StudentID;
+        </code></pre>
+        <img src="lefttable.png" alt="table">
+      <h3>3. RIGHT (OUTER) JOIN</h3>
+      <p>
+        Returns all records from the right table, and the matched records from
+        the left table
+      </p>
+      <img src="rightjoin.png" alt="rightjoin">
+      <pre><code>
+SELECT Students.StudentID, Students.StudentName, Courses.CourseName
+FROM Students
+RIGHT JOIN Courses ON Students.StudentID = Courses.StudentID;
+        </code></pre>
+        <img src="righttable.png" alt="table">
+      <h3>4. FULL (OUTER) JOIN</h3>
+
+      <p>
+        Returns all records when there is a match in either left or right table
+      </p>
+      <img src="fulljoin.png" alt="fulljoin">
+      <pre><code>
+SELECT Students.StudentID, Students.StudentName, Courses.CourseName
+FROM Students
+LEFT JOIN Courses ON Students.StudentID = Courses.StudentID
+UNION
+SELECT Students.StudentID, Students.StudentName, Courses.CourseName
+FROM Students
+RIGHT JOIN Courses ON Students.StudentID = Courses.StudentID;
+        </code></pre>
+        <img src="fulltable.png" alt="table">
+    </section>
+  </body>
+</html>
